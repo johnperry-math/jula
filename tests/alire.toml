@@ -1,0 +1,16 @@
+name = "tests"
+description = "tests for ada implementation of json"
+version = "0.1.0-dev"
+
+authors = ["John Perry"]
+maintainers = ["John Perry <devotus@yahoo.com>"]
+maintainers-logins = ["johnperry-math"]
+licenses = "CC-BY-SA-3.0"
+website = ""
+tags = ["tests", "jula"]
+
+[[depends-on]]
+jula = "*"
+
+[[pins]]
+jula = {path = ".."}

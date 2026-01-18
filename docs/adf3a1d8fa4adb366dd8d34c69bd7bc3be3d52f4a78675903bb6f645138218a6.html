@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class=main>
+<link rel=stylesheet href=gnatdoc.css><body class=content><h1>Jula.Parsing</h1><h2>Entities</h2><h3>Exceptions</h3><ul><li><a href=#5ed804e0cf609af3de4ee7c996ad8b631c314e11c5e496fbfdd52becd11792dd>Invalid_Escape_Character</a><li><a href=#b9bf45f12beb647da5e5ca8d568d1fe936e3a4f1ce4553249aa5c2a168d7bdc6>Invalid_Number</a><li><a href=#58b20045e02e3f7b6a0622f710bd9abb494bfaed470ea233f0a8eb59b537d15c>Invalid_Unicode</a><li><a href=#af0bbb0b0af34b177a46a8e2a4814b65e02367bee0aad2a403175d6a01869abf>Unexpected_Character_In_String</a><li><a href=#077bff5cdd0f4d3298107b8c3fe7610e07c7241b91073d97dfa8cd9ac3dd0d44>Unexpected_End_Of_File</a><li><a href=#433cb0440988ef75b1caae685d30ef175c4c0881dd8e5d808e308541b5c4b2ae>Unexpected_Symbol</a><li><a href=#4f62e6f0b98188a6e69dd67ac12bb726b37762d8e754b7ff691d35766268d8b1>Unknown_Term</a><li><a href=#952d1aa399594ad25abf035b40cc219fdc09be5aa279939dcf223355ba19bd0c>Unterminated_String</a></ul><h3>Subtypes</h3><ul><li><a href=#5437421f2ebd93fd89dbcfbae01db6625ba3b7f1f0e894618dbc4d0201fdd025>String_Vector</a></ul><h3>Subprograms</h3><ul><li><a href=#6ed6bc56762fa4b1fbbd42e54d7b5fc2971d56522ca651f607eb8943a97cdd28>From_File</a><li><a href=#f26f4a0cb1c023a39406eb223da74edafd2730aed2667006a4135775bbbf6c16>From_String</a><li><a href=#c8251189efdf1d1f67c449fbc65eca0ec7eebacf29c798151eabe3ed61a818f2>From_Strings</a></ul><h3>Generic Instantiations</h3><ul><li><a href=#928cf0adb3e0f2d2a573fa83f7ee04fb5db7d8e6a99c2ee5e36e184d4e3d6677>String_Vectors</a></ul><h2>Description</h2><p>JSON Ultility Library for Ada<p>John Perry<p>CC-BY-SA-3.0<p>The parser follows the specification of RFC 8259. It allows some features common to real-world JSON texts that other implementations prohibit:<ul><li><p>Comments beginning with<code>//</code>. This is allowed per section 9:<em>A JSON parser MAY accept non-JSON forms or extensions.</em><li><p>More than one json value per text, per section 2:<em>A JSON text is a sequence of tokens. ... Note that certain previous specifications of JSON constrained a JSON text to be an object or an array.</em></ul><p><strong>Caution</strong><p>In order to return a JSON string as a<code>String</code>; the parser<em>does not</em>convert Unicode escape characters into UTF-8; it leaves them as<code>\uWXYZ</code>. There are several reasons for this, one of them being that your target may support only ASCII, Latin-1, etc. For targets capable of supporting UTF-8, use<code>jula.literals.To_Wide_Wide_String</code>or<code>jula.literals.To_UTF_16_String</code>. ...Or decode them in your own custome fashion.<h4 id=6ed6bc56762fa4b1fbbd42e54d7b5fc2971d56522ca651f607eb8943a97cdd28>From_File</h4><pre class=ada-code-snippet><code>function From_File (Path : String) return JSON'Class
+</code></pre><p>create a JSON from a file. equivalent to calling From_Strings with each line as an element of Lines.<h5>Parameters</h5><dl><dt>Path<dd><p>full path to the file to parse</dl><h5>Return Value</h5><dl><dd><p>the JSON specified by the vector</dl><h4 id=f26f4a0cb1c023a39406eb223da74edafd2730aed2667006a4135775bbbf6c16>From_String</h4><pre class=ada-code-snippet><code>function From_String (Value : String) return JSON'Class
+</code></pre><p>create a JSON object from a string. equivalent to calling From_Strings with a singleton vector<h5>Parameters</h5><dl><dt>Value<dd><p>string to parse</dl><h5>Return Value</h5><dl><dd><p>the JSON specified by the vector</dl><h4 id=c8251189efdf1d1f67c449fbc65eca0ec7eebacf29c798151eabe3ed61a818f2>From_Strings</h4><pre class=ada-code-snippet><code>function From_Strings (Lines : String_Vector) return JSON'Class
+</code></pre><p>create a JSON object<h5>Parameters</h5><dl><dt>Lines<dd><p>strings that will be scanned in the order they appear in the vector. more than one JSON object can appear.</dl><h5>Return Value</h5><dl><dd><p>the JSON specified by the vector</dl><h4 id=5ed804e0cf609af3de4ee7c996ad8b631c314e11c5e496fbfdd52becd11792dd>Invalid_Escape_Character</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre><h4 id=b9bf45f12beb647da5e5ca8d568d1fe936e3a4f1ce4553249aa5c2a168d7bdc6>Invalid_Number</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre><h4 id=58b20045e02e3f7b6a0622f710bd9abb494bfaed470ea233f0a8eb59b537d15c>Invalid_Unicode</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre><h4 id=5437421f2ebd93fd89dbcfbae01db6625ba3b7f1f0e894618dbc4d0201fdd025>String_Vector</h4><pre class=ada-code-snippet><code>subtype String_Vector is String_Vectors.Vector;
+</code></pre><h4 id=928cf0adb3e0f2d2a573fa83f7ee04fb5db7d8e6a99c2ee5e36e184d4e3d6677>String_Vectors</h4><pre class=ada-code-snippet><code>package String_Vectors is new
+  Ada.Containers.Indefinite_Vectors
+    (Index_Type   => Positive,
+     Element_Type => String);
+</code></pre><h4 id=af0bbb0b0af34b177a46a8e2a4814b65e02367bee0aad2a403175d6a01869abf>Unexpected_Character_In_String</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre><h4 id=077bff5cdd0f4d3298107b8c3fe7610e07c7241b91073d97dfa8cd9ac3dd0d44>Unexpected_End_Of_File</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre><h4 id=433cb0440988ef75b1caae685d30ef175c4c0881dd8e5d808e308541b5c4b2ae>Unexpected_Symbol</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre><h4 id=4f62e6f0b98188a6e69dd67ac12bb726b37762d8e754b7ff691d35766268d8b1>Unknown_Term</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre><h4 id=952d1aa399594ad25abf035b40cc219fdc09be5aa279939dcf223355ba19bd0c>Unterminated_String</h4><pre class=ada-code-snippet><code>Invalid_Escape_Character,
+  Invalid_Number,
+  Invalid_Unicode,
+  Unknown_Term,
+  Unexpected_Character_In_String,
+  Unexpected_End_Of_File,
+  Unexpected_Symbol,
+  Unterminated_String : exception;
+</code></pre>

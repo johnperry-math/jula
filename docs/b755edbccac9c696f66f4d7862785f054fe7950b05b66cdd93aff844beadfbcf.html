@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html class=main>
+<link rel=stylesheet href=gnatdoc.css><body class=content><header><h1>Tagged Type JSON_Array</h1></header><p>Parent type:
+      
+      <span>JSON</span>
+    <p>All parent types:
+      
+        
+        <span>JSON</span>
+      
+    <h3>Declared dispatching subprograms</h3><ul><li><a href=#3b92185912a10962611ba6f72142e1b9219d5e692060ec98636a27599676fba8>Element</a><li><a href=#1e9095ac2fc9ef27c0d63172d7f5bea0c347b1da79093732a3d8335000117c76>Element_At_Index</a><li><a href=#2ba593c3d8c8c6cfcc5da9a4917e7bbf28c7e72021e5c1e9192021ce51f74e60>Iterate_Array</a></ul><h3>Overrided dispatching subprograms</h3><ul><li><a href=#7ecbdc19ab36abe50b165f92f813a89d33163ef9126570a16686776d00cf7260>To_String</a></ul><h3>Declared prefix-callable subprograms</h3><ul><li><a href=#3b92185912a10962611ba6f72142e1b9219d5e692060ec98636a27599676fba8>Element</a><li><a href=#1e9095ac2fc9ef27c0d63172d7f5bea0c347b1da79093732a3d8335000117c76>Element_At_Index</a><li><a href=#2ba593c3d8c8c6cfcc5da9a4917e7bbf28c7e72021e5c1e9192021ce51f74e60>Iterate_Array</a><li><a href=#7ecbdc19ab36abe50b165f92f813a89d33163ef9126570a16686776d00cf7260>To_String</a></ul><h2>Description</h2><p>you can index and iterate either by accessing Elements or by an ordinary, idiomatic syntax<h3>Components and Discriminants</h3><dl><dt>Elements<dd></dl><h3>Subprograms</h3><h4 id=3b92185912a10962611ba6f72142e1b9219d5e692060ec98636a27599676fba8>Element</h4><pre class=ada-code-snippet><code>function Element
+  (A : JSON_Array; Position : JSON_Array_Cursor) return JSON'Class
+</code></pre><h5>Parameters</h5><dl><dt>A<dd><dt>Position<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=1e9095ac2fc9ef27c0d63172d7f5bea0c347b1da79093732a3d8335000117c76>Element_At_Index</h4><pre class=ada-code-snippet><code>function Element_At_Index
+  (A : JSON_Array; Index : Positive) return JSON'Class
+</code></pre><p>the value of the array at the indicated index<h5>Parameters</h5><dl><dt>A<dd><p>a JSON array<dt>Index<dd><p>where in A; the first index is always 1</dl><h5>Return Value</h5><dl><dd></dl><h5>Raised exceptions</h5><dl><dt>Constraint_Error<dd><p>when Index is invalid</dl><h4 id=2ba593c3d8c8c6cfcc5da9a4917e7bbf28c7e72021e5c1e9192021ce51f74e60>Iterate_Array</h4><pre class=ada-code-snippet><code>function Iterate_Array
+  (A : JSON_Array) return Reversible_Array_Iterator'Class
+</code></pre><h5>Parameters</h5><dl><dt>A<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=7ecbdc19ab36abe50b165f92f813a89d33163ef9126570a16686776d00cf7260>To_String</h4><pre class=ada-code-snippet><code>function To_String (Object : JSON_Array) return String
+</code></pre><h5>Parameters</h5><dl><dt>Object<dd></dl><h5>Return Value</h5><dl><dd></dl>

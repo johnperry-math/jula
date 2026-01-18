@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html class=main>
+<link rel=stylesheet href=gnatdoc.css><body class=content><header><h1>Tagged Type JSON_Object</h1></header><p>Parent type:
+      
+      <span>JSON</span>
+    <p>All parent types:
+      
+        
+        <span>JSON</span>
+      
+    <h3>Declared dispatching subprograms</h3><ul><li><a href=#0a7b2f5e0884026bb2213317d0665235812fa1992697b263f232567d32735da4>Value_At_Key</a></ul><h3>Overrided dispatching subprograms</h3><ul><li><a href=#888ca4a561046e4772531afefa48c01242f3f468f8f9a7574d63bfd4565f562f>To_String</a></ul><h3>Declared prefix-callable subprograms</h3><ul><li><a href=#888ca4a561046e4772531afefa48c01242f3f468f8f9a7574d63bfd4565f562f>To_String</a><li><a href=#0a7b2f5e0884026bb2213317d0665235812fa1992697b263f232567d32735da4>Value_At_Key</a></ul><h2>Description</h2><p>you can access values through either Mapping or an idiomatic indexing syntax. you can iterate by accessing Mapping. (it seemed a little too much work, and possibly confusion, to throw in all the functions required to iterate immediately.)<h3>Components and Discriminants</h3><dl><dt>Mapping<dd></dl><h3>Subprograms</h3><h4 id=888ca4a561046e4772531afefa48c01242f3f468f8f9a7574d63bfd4565f562f>To_String</h4><pre class=ada-code-snippet><code>function To_String (Object : JSON_Object) return String
+</code></pre><h5>Parameters</h5><dl><dt>Object<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=0a7b2f5e0884026bb2213317d0665235812fa1992697b263f232567d32735da4>Value_At_Key</h4><pre class=ada-code-snippet><code>function Value_At_Key (O : JSON_Object; Key : String) return JSON'Class
+</code></pre><p>the JSON value at the indicated key<h5>Parameters</h5><dl><dt>O<dd><p>a JSON object<dt>Key<dd><p>a key that appears in object</dl><h5>Return Value</h5><dl><dd></dl><h5>Raised exceptions</h5><dl><dt>Constraint_Error<dd><p>if Key is not in O</dl>

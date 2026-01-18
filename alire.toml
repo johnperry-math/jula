@@ -1,0 +1,10 @@
+name = "jula"
+description = "JSON Utility Library for Ada"
+version = "0.1.0-dev"
+
+authors = ["John Perry"]
+maintainers = ["John Perry <devotus@yahoo.com>"]
+maintainers-logins = ["johnperry-math"]
+licenses = "CC-BY-SA-3.0"
+website = ""
+tags = ["ada", "json", "standard", "library"]

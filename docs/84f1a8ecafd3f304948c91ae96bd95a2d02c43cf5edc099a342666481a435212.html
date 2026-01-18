@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html class=main>
+<link rel=stylesheet href=gnatdoc.css><body class=content><header><h1>Tagged Type Reversible_Array_Iterator</h1></header><p>Progenitor types:
+      
+        
+        <span>Reversible_Iterator</span>
+      
+    <p>All progenitor types:
+      
+        
+        <span>Reversible_Iterator</span>
+      
+    <h3>Overrided dispatching subprograms</h3><ul><li><a href=#16b74cd97b8c6b3ab18c92103b9e379efe2614a54528f7a3e57a2531073f0109>First</a><li><a href=#13179bad18fd96d44ff9cc430d8a5aff00c7749384806650b9351b00548370a4>Last</a><li><a href=#177af49c7706fac666afe46e9915bcd3637b7ebc91cff4076ce1482c46e2a097>Next</a><li><a href=#66c4fb29935e839a6a05a9aa38b56c71cc27cd461bee609ebddd7a037dba8851>Previous</a></ul><h3>Declared prefix-callable subprograms</h3><ul><li><a href=#16b74cd97b8c6b3ab18c92103b9e379efe2614a54528f7a3e57a2531073f0109>First</a><li><a href=#13179bad18fd96d44ff9cc430d8a5aff00c7749384806650b9351b00548370a4>Last</a><li><a href=#177af49c7706fac666afe46e9915bcd3637b7ebc91cff4076ce1482c46e2a097>Next</a><li><a href=#66c4fb29935e839a6a05a9aa38b56c71cc27cd461bee609ebddd7a037dba8851>Previous</a></ul><h2>Description</h2><h3>Components and Discriminants</h3><dl><dt>Container<dd><dt>Cursor<dd></dl><h3>Subprograms</h3><h4 id=16b74cd97b8c6b3ab18c92103b9e379efe2614a54528f7a3e57a2531073f0109>First</h4><pre class=ada-code-snippet><code>function First
+  (Object : Reversible_Array_Iterator) return JSON_Array_Cursor
+</code></pre><h5>Parameters</h5><dl><dt>Object<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=13179bad18fd96d44ff9cc430d8a5aff00c7749384806650b9351b00548370a4>Last</h4><pre class=ada-code-snippet><code>function Last (Object : Reversible_Array_Iterator) return JSON_Array_Cursor
+</code></pre><h5>Parameters</h5><dl><dt>Object<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=177af49c7706fac666afe46e9915bcd3637b7ebc91cff4076ce1482c46e2a097>Next</h4><pre class=ada-code-snippet><code>function Next
+  (Object : Reversible_Array_Iterator; Position : JSON_Array_Cursor)
+   return JSON_Array_Cursor
+</code></pre><h5>Parameters</h5><dl><dt>Object<dd><dt>Position<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=66c4fb29935e839a6a05a9aa38b56c71cc27cd461bee609ebddd7a037dba8851>Previous</h4><pre class=ada-code-snippet><code>function Previous
+  (Object : Reversible_Array_Iterator; Position : JSON_Array_Cursor)
+   return JSON_Array_Cursor
+</code></pre><h5>Parameters</h5><dl><dt>Object<dd><dt>Position<dd></dl><h5>Return Value</h5><dl><dd></dl>

@@ -1,0 +1,132 @@
+# JULA: JSON Utility Library for Ada
+
+I looked at a few of the JSON libraries available for Ada,
+and either:
+* they didn't implement Ada's custom iteration
+  (**cough** GNATColl.JSON **cough**), and/or
+* they were part of a larger package I didn't need, and/or
+* they exposed access types, and/or
+* they didn't offer conversion of embedded Unicode, and/or
+* they cited an earlier RFC to reject common JSON features
+  like comments.
+
+In one of my tasks, I needed some features the other implementations reject;
+I was interested in developing a JSON parser anyway;
+and thought it should prove an easy exercise.
+I wasn't exactly wrong, but I wasn't exactly right, either.
+See [Lessons Learned](#lessons-learned) below.
+
+### Features
+
+* Iteration over arrays and maps.
+* Indexing of arrays (by `Positive`) and maps (by `String`).
+* Conversion of strings to `String`, `UTF_16_String`, or `Wide_Wide_String`,
+  with the later two converting Unicode escapes to their correct glyphs.
+* A bunch of unit tests to make sure things are working properly.
+
+### Non-features
+
+* **SPARK** Maybe one day.
+* **Efficiency** I doubt it's efficient.
+* **Good Ada practices** I can only promise that I tried,
+  but a lot of this was late-night programming and self-study.
+* Conversion of `UTF_16_String` or `Wide_Wide_String` to `String`.
+  (I may add this in the future.)
+
+### Specification
+
+I wrote this against [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259).
+Thus, it allows two things that other Ada parsers explicitly reject:
+* more than one JSON value per text, as defined in Section 2:
+
+  > A JSON text is a sequence of tokens. ... Note that certain previous
+  > specifications of JSON constrained a JSON text to be an object or an
+  > array.
+
+  The RFC does _not_ specify how to handle this situation.
+  The natural solution is to consider it an array,
+  which is what this parser does.
+* comments beginning with `//`, as allowed in Section 9:
+  
+  > A JSON parser MAY accept non-JSON forms or extensions.
+
+### Example usage
+
+The following excerpt from one of my programs that uses this library
+illustrates the use of both iteration and indexing.
+```ada
+procedure Read_Quotes (Source_Path : String; Into : in out Quote_Vector) is
+
+    File       : IO.File_Type;
+    All_Quotes : JSON_Array :=
+       JSON_Array (Jula.Parsing.From_File (Source_Path));
+
+      for Element of All_Quotes loop --  <-- iteration!!
+
+         declare
+            Json_Quote : JSON_Object := JSON_Object (Element);
+            New_Quote  : Quote := (Has => [others => False], Value => <>);
+         begin
+            for Field in Fields loop
+               -- ...
+                  New_Quote.Has (Field) := Json_Quote.Mapping.Contains (Key);
+                  if New_Quote.Has (Field) then
+                     New_Quote.Value (Field) :=
+                       JSON_String (Json_Quote (Key)).Text; --  <-- indexing!!
+                  end if;
+               -- ...
+```
+
+## Should _you_ use it?
+
+Probably not; smarter people wrote the other implementations.
+I've used it with success, though,
+so if the example above is to your liking, then have at it.
+
+## In case you want to use it anyway
+
+### Dependencies
+
+1. I used Alire to build and test jula, but that shouldn't be necessary;
+it has no dependencies beyond standard Ada, and `gprbuild` seems to work fine.
+2. As it stands currently, the `tests` subfolder _does_ require Alire,
+but this is easily fixed by modifying `tests/config/tests_config.gpr`
+so that it looks for `jula.gpr` in `tests`' parent folder .
+
+
+## Lessons learned
+
+1. After years of doing Ada as a hobby, I'm still not a very good Ada programmer.
+
+2. I'm pretty disappointed that I can't create a vector
+of a discriminated record type with a vector of itself inside it.
+That is, my first attempt to implement this was along these lines:
+
+   ```ada
+   type JSON;
+
+   package JSON_Lists is new Ada.Conntainers.Vectors
+     (Index_Type => Positive, Element_Type => JSON_Flavor);
+   subtype JSON_List is JSON_Lists.Vector;
+
+   -- ...etc.
+
+   type JSON_Flavor is
+       (JSON_Array, JSON_Boolean, JSON_Null, JSON_Number, JSON_Object, JSON_String);
+   type JSON (Flavor: JSON_Flavor) is record
+       when JSON_Array => Elements: JSON_List;
+       -- ... etc.
+   end record;
+   ```
+   ...but Ada rejected every variant of that that I tried,
+citing an incomplete type.
+
+   Eventually I came across a discussion that indicated
+the ARG considered allowing this sort of thing,
+but decided against it due to problems it created.
+I can accept that, but it's still disappointing;
+I'd have preferred this to this version, which has tagged records.
+
+   I could of course do it with access types, but that seems inelegant since,
+after all, _the vector already takes care of that for me_.
+Besides, this seems to work.
