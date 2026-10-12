@@ -19,7 +19,31 @@ package body String_Tests is
    subtype JSON is Jula.JSON;
    subtype JSON_String is Jula.Literals.JSON_String;
 
-   function String_Passes return Boolean is
+   function String_Is_String return Boolean is
+      Object : constant JSON_String :=
+        JSON_String'(Text => To_Unbounded_String ("hello"));
+   begin
+      if not Object.Is_String then
+         IO.Put_Line
+           ("String_Is_String:"
+            & " Somehow a JSON_String is not recognized as such");
+         return False;
+      end if;
+      if Object.Is_Array
+        or else Object.Is_Boolean
+        or else Object.Is_Null
+        or else Object.Is_Number
+        or else Object.Is_Object
+      then
+         IO.Put_Line
+           ("String_Is_String:"
+            & " JSON_String is a JSON_String, but"
+            & " is somehow also a different type");
+      end if;
+      return True;
+   end String_Is_String;
+
+   function String_Parsing_Passes return Boolean is
       Input  : constant String := """hello""";
       Output : constant JSON'Class := Jula.Parsing.From_String (Input);
    begin
@@ -43,7 +67,7 @@ package body String_Tests is
          end;
       end if;
       return True;
-   end String_Passes;
+   end String_Parsing_Passes;
 
    function UTF8_To_Wide_Wide_String_Passes return Boolean is
       Input : constant String := """\u2019""";
@@ -109,7 +133,8 @@ package body String_Tests is
    end UTF16_To_UTF_16_String_Passes;
 
    function All_Pass return Boolean
-   is (String_Passes
+   is (String_Is_String
+       and then String_Parsing_Passes
        and then UTF8_To_Wide_Wide_String_Passes
        and then UTF16_To_Wide_Wide_String_Passes
        and then UTF16_To_UTF_16_String_Passes);

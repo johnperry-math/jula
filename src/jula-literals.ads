@@ -24,12 +24,22 @@ package Jula.Literals is
    function To_String (Object : JSON_Boolean) return String
    is (if Object.Value then "true" else "false");
 
+   overriding
+   function Is_Boolean (Value : JSON_Boolean) return Boolean
+   is (True);
+
    type JSON_Null is new JSON_Literal with null record;
    --  the `null` value
 
    overriding
    function To_String (Object : JSON_Null) return String
    is ("null");
+
+   overriding
+   function Is_Null (Value : JSON_Null) return Boolean
+   is (True);
+
+   Null_Element : constant JSON_Null := (others => <>);
 
    type JSON_Float is digits 15;
 
@@ -39,6 +49,10 @@ package Jula.Literals is
 
    overriding
    function To_String (Object : JSON_Number) return String;
+
+   overriding
+   function Is_Number (Value : JSON_Number) return Boolean
+   is (True);
 
    function To_Wide_Wide_String (Text : String) return Wide_Wide_String;
    --  returns a Wide_Wide_String, with appropriate conversion of UTF-8.
@@ -58,6 +72,10 @@ package Jula.Literals is
    overriding
    function To_String (Object : JSON_String) return String
    is ("""" & UBStrings.To_String (Object.Text) & """");
+
+   overriding
+   function Is_String (Value : JSON_String) return Boolean
+   is (True);
 
    function To_Wide_Wide_String (Object : JSON_String) return Wide_Wide_String
    is (To_Wide_Wide_String (UBStrings.To_String (Object.Text)));

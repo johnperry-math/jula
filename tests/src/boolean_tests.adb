@@ -59,7 +59,30 @@ package body Boolean_Tests is
       return True;
    end False_Passes;
 
+   function Boolean_Is_Boolean return Boolean is
+      Object : constant JSON'Class := JSON_Boolean'(Value => True);
+   begin
+      if not Object.Is_Boolean then
+         IO.Put_Line
+           ("Boolean_Is_Boolean:"
+            & " Somehow a JSON_Boolean is not recognized as such");
+         return False;
+      end if;
+      if Object.Is_Array
+        or else Object.Is_Object
+        or else Object.Is_Null
+        or else Object.Is_Number
+        or else Object.Is_String
+      then
+         IO.Put_Line
+           ("Boolean_Is_Boolean:"
+            & " JSON_Boolean is a JSON_Boolean, but"
+            & " is somehow also a different type");
+      end if;
+      return True;
+   end Boolean_Is_Boolean;
+
    function All_Pass return Boolean
-   is (True_Passes and then False_Passes);
+   is (True_Passes and then False_Passes and then Boolean_Is_Boolean);
 
 end Boolean_Tests;

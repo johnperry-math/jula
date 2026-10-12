@@ -33,6 +33,12 @@ package Jula.Objects is
    --  you can index and iterate either by accessing `Mapping`
    --  or by an ordinary, idiomatic syntax
 
+   function Has_Key (O : JSON_Object; Key : String) return Boolean;
+
+   overriding
+   function Is_Object (Value : JSON_Object) return Boolean
+   is (True);
+
    type JSON_Object_Cursor is private;
 
    function Value_At_Key (O : JSON_Object; Key : String) return JSON'Class;

@@ -11,6 +11,29 @@ package body Number_Tests is
    use all type Jula.Literals.JSON_Float;
    subtype JSON_Number is Jula.Literals.JSON_Number;
 
+   function Number_Is_Number return Boolean is
+      Object : constant JSON_Number := JSON_Number'(Value => -2.0);
+   begin
+      if not Object.Is_Number then
+         IO.Put_Line
+           ("Number_Is_Number:"
+            & " Somehow a JSON_Number is not recognized as such");
+         return False;
+      end if;
+      if Object.Is_Array
+        or else Object.Is_Boolean
+        or else Object.Is_Null
+        or else Object.Is_Object
+        or else Object.Is_String
+      then
+         IO.Put_Line
+           ("Number_Is_Number:"
+            & " JSON_Number is a JSON_Number, but"
+            & " is somehow also a different type");
+      end if;
+      return True;
+   end Number_Is_Number;
+
    function Integers_Pass return Boolean is
       A : constant String := "123";
       B : constant String := "-456";
@@ -60,6 +83,9 @@ package body Number_Tests is
    end Scino_Floats_Pass;
 
    function All_Pass return Boolean
-   is (Integers_Pass and then Flat_Floats_Pass and then Scino_Floats_Pass);
+   is (Number_Is_Number
+       and then Integers_Pass
+       and then Flat_Floats_Pass
+       and then Scino_Floats_Pass);
 
 end Number_Tests;

@@ -63,4 +63,7 @@ package body Jula.Arrays is
       return To_String (Result);
    end To_String;
 
+   function Is_Empty (Object : JSON_Array) return Boolean
+   is (Object.Elements.Is_Empty);
+
 end Jula.Arrays;

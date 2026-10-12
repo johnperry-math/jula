@@ -26,6 +26,12 @@ package Jula.Arrays is
    --  you can index and iterate either by accessing `Elements`
    --  or by an ordinary, idiomatic syntax
 
+   function Is_Empty (Object : JSON_Array) return Boolean;
+
+   overriding
+   function Is_Array (Value : JSON_Array) return Boolean
+   is (True);
+
    type JSON_Array_Cursor is private;
 
    function Element_At_Index

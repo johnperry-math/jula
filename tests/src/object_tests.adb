@@ -27,6 +27,29 @@ package body Object_Tests is
    subtype JSON_Null is Jula.Literals.JSON_Null;
    subtype JSON_Number is Jula.Literals.JSON_Number;
 
+   function Object_Is_Object return Boolean is
+      Object : constant JSON_Object := JSON_Object'(Mapping => []);
+   begin
+      if not Object.Is_Object then
+         IO.Put_Line
+           ("Object_Is_Object:"
+            & " Somehow a JSON_Object is not recognized as such");
+         return False;
+      end if;
+      if Object.Is_Array
+        or else Object.Is_Boolean
+        or else Object.Is_Null
+        or else Object.Is_Number
+        or else Object.Is_String
+      then
+         IO.Put_Line
+           ("Object_Is_Object:"
+            & " JSON_Object is a JSON_Object, but"
+            & " is somehow also a different type");
+      end if;
+      return True;
+   end Object_Is_Object;
+
    function Object_With_Array_Passes return Boolean is
       Input  : constant String :=
         "  { ""first"" : [2, true], ""second"": null} ";
@@ -139,10 +162,26 @@ package body Object_Tests is
       return True;
    end Empty_Object_Passes;
 
+   function Object_Containment_Passes return Boolean is
+      Output : constant JSON_Object :=
+        JSON_Object'
+          (Mapping => ["first" => JSON'Class (JSON_Number'(Value => 2.0))]);
+   begin
+      if not Output.Has_Key ("first") then
+         IO.Put_Line
+           ("Object_Containment_Passes:"
+            & " should have contained key ""first"", but did not");
+         return False;
+      end if;
+      return True;
+   end Object_Containment_Passes;
+
    function All_Pass return Boolean
-   is (Object_With_Array_Passes
+   is (Object_Is_Object
+       and then Object_With_Array_Passes
        and then Object_Access_Passes
        and then Object_Iteration_Passes
+       and then Object_Containment_Passes
        and then Empty_Object_Passes);
 
 end Object_Tests;

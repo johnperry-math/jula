@@ -56,4 +56,7 @@ package body Jula.Objects is
      (O : JSON_Object) return JSON_Object_Iterators.Forward_Iterator'Class
    is (Object_Iterator'(Cursor => O.Mapping.First));
 
+   function Has_Key (O : JSON_Object; Key : String) return Boolean
+   is (O.Mapping.Contains (Key));
+
 end Jula.Objects;

@@ -31,4 +31,17 @@ package Jula is
    --  @param Object any
    --  @return a parseable string representation of object
 
+   function Is_Array (Value : JSON) return Boolean
+   is (False);
+   function Is_Boolean (Value : JSON) return Boolean
+   is (False);
+   function Is_Null (Value : JSON) return Boolean
+   is (False);
+   function Is_Number (Value : JSON) return Boolean
+   is (False);
+   function Is_Object (Value : JSON) return Boolean
+   is (False);
+   function Is_String (Value : JSON) return Boolean
+   is (False);
+
 end Jula;

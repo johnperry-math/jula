@@ -23,6 +23,29 @@ package body Array_Tests is
    subtype JSON_Number is Jula.Literals.JSON_Number;
    subtype JSON_String is Jula.Literals.JSON_String;
 
+   function Array_Is_Array return Boolean is
+      Object : constant JSON_Array := JSON_Array'(Elements => []);
+   begin
+      if not Object.Is_Array then
+         IO.Put_Line
+           ("Array_Is_Array:"
+            & " Somehow a JSON_Array is not recognized as such");
+         return False;
+      end if;
+      if Object.Is_Object
+        or else Object.Is_Boolean
+        or else Object.Is_Null
+        or else Object.Is_Number
+        or else Object.Is_String
+      then
+         IO.Put_Line
+           ("Array_Is_Array:"
+            & " JSON_Array is a JSON_Array, but"
+            & " is somehow also a different type");
+      end if;
+      return True;
+   end Array_Is_Array;
+
    function Heterogeneous_Array_Passes return Boolean is
       Input  : constant String := "   [null, 2, ""hello""]  ";
       Output : constant JSON_Array :=
@@ -101,6 +124,17 @@ package body Array_Tests is
       return True;
    end Empty_Array_Passes;
 
+   function Is_Empty_Passes return Boolean is
+      Value : constant JSON_Array := (Elements => <>);
+   begin
+      if not Value.Is_Empty then
+         IO.Put_Line
+           ("Is_Empty_Passes: an empty array is not detected as empty");
+         return False;
+      end if;
+      return True;
+   end Is_Empty_Passes;
+
    function Array_Iteration_Passes return Boolean is
       Input   : constant String := "   [null, 2, ""hello""]  ";
       Output  : constant JSON_Array :=
@@ -120,8 +154,10 @@ package body Array_Tests is
    end Array_Iteration_Passes;
 
    function All_Pass return Boolean
-   is (Heterogeneous_Array_Passes
+   is (Array_Is_Array
+       and then Heterogeneous_Array_Passes
        and then Empty_Array_Passes
+       and then Is_Empty_Passes
        and then Array_Iteration_Passes);
 
 end Array_Tests;
