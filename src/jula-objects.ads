@@ -29,7 +29,8 @@ package Jula.Objects is
    with
      Constant_Indexing => Value_At_Key,
      Default_Iterator  => Iterate,
-     Iterator_Element  => JSON'Class;
+     Iterator_Element  => JSON'Class,
+     Put_Image         => JSON_Image;
    --  you can index and iterate either by accessing `Mapping`
    --  or by an ordinary, idiomatic syntax
 
@@ -66,6 +67,11 @@ package Jula.Objects is
 
    function Iterate
      (O : JSON_Object) return JSON_Object_Iterators.Forward_Iterator'Class;
+
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Object);
 
 private
 

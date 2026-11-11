@@ -59,4 +59,12 @@ package body Jula.Objects is
    function Has_Key (O : JSON_Object; Key : String) return Boolean
    is (O.Mapping.Contains (Key));
 
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Object) is
+   begin
+      Buffer.Put (Value.To_String);
+   end JSON_Image;
+
 end Jula.Objects;

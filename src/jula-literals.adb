@@ -151,4 +151,36 @@ package body Jula.Literals is
           (UBWStrings.To_Wide_String (Result));
    end To_UTF_16_String;
 
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Boolean) is
+   begin
+      Buffer.Put (Value.To_String);
+   end JSON_Image;
+
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Null) is
+   begin
+      Buffer.Put (Value.To_String);
+   end JSON_Image;
+
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Number) is
+   begin
+      Buffer.Put (Value.To_String);
+   end JSON_Image;
+
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_String) is
+   begin
+      Buffer.Put (Value.To_String);
+   end JSON_Image;
+
 end Jula.Literals;

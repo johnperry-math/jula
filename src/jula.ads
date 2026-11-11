@@ -1,3 +1,6 @@
+pragma Ada_2022;
+
+with Ada.Strings.Text_Buffers;
 with Ada.Strings.Unbounded;
 
 package Jula is
@@ -23,9 +26,10 @@ package Jula is
    --  the user will mainly be interested in this when using a JSON_String
    --  (see Jula.Strings).
 
-   type JSON is abstract tagged null record;
+   type JSON is abstract tagged null record with Put_Image => JSON_Image;
 
-   function To_String (Object : JSON) return String is abstract;
+   function To_String (Object : JSON) return String
+   is ("<JSON>");
    --  create a legal and, therefore, parseable string
    --  that one can feed to Jula.Parsing.From_String and obtain Object.
    --  @param Object any
@@ -43,5 +47,9 @@ package Jula is
    is (False);
    function Is_String (Value : JSON) return Boolean
    is (False);
+
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON);
 
 end Jula;

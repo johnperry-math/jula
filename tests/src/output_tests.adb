@@ -4,6 +4,9 @@ with Ada.Strings.Unbounded;
 with Ada.Text_IO;
 
 with Jula;
+with Jula.Arrays;
+with Jula.Literals;
+with Jula.Objects;
 with Jula.Parsing;
 
 package body Output_Tests is
@@ -78,7 +81,57 @@ package body Output_Tests is
       return True;
    end The_Cycle_Is_Complete;
 
+   function JSON_Put_Image_Passes return Boolean is
+      Temp    : Jula.Literals.JSON_Boolean;
+      Blocked : constant JSON'Class := Temp;
+   begin
+      return JSON (Blocked)'Image = "<JSON>";
+   end JSON_Put_Image_Passes;
+
+   function JSON_Boolean_Image_Passes return Boolean is
+      Value : Jula.Literals.JSON_Boolean;
+   begin
+      return Value'Image = "false";
+   end JSON_Boolean_Image_Passes;
+
+   function JSON_Null_Image_Passes return Boolean
+   is (Jula.Literals.Null_Element'Image = "null");
+
+   function JSON_Number_Image_Passes return Boolean is
+      Value : constant Jula.Literals.JSON_Number := (Value => 3.14159);
+   begin
+      return Value'Image = "3.14159";
+   end JSON_Number_Image_Passes;
+
+   function JSON_String_Image_Passes return Boolean is
+      Value : constant Jula.Literals.JSON_String :=
+        (Text => UBStrings.To_Unbounded_String ("test"));
+   begin
+      return Value'Image = """test""";
+   end JSON_String_Image_Passes;
+
+   function JSON_Array_Image_Passes return Boolean is
+      Value : constant Jula.Arrays.JSON_Array :=
+        (Elements => [JSON'Class (Jula.Literals.Null_Element)]);
+   begin
+      return Value'Image = "[ null ]";
+   end JSON_Array_Image_Passes;
+
+   function JSON_Object_Image_Passes return Boolean is
+      Value : constant Jula.Objects.JSON_Object :=
+        (Mapping => ["first" => JSON'Class (Jula.Literals.Null_Element)]);
+   begin
+      return Value'Image = "{ ""first"" : null }";
+   end JSON_Object_Image_Passes;
+
    function All_Pass return Boolean
-   is (The_Cycle_Is_Complete);
+   is (The_Cycle_Is_Complete
+       and then JSON_Put_Image_Passes
+       and then JSON_Boolean_Image_Passes
+       and then JSON_Null_Image_Passes
+       and then JSON_Number_Image_Passes
+       and then JSON_String_Image_Passes
+       and then JSON_Array_Image_Passes
+       and then JSON_Object_Image_Passes);
 
 end Output_Tests;

@@ -16,8 +16,9 @@ package Jula.Literals is
    --  if a JSON value is a literal without knowing which specific one.
 
    type JSON_Boolean is new JSON_Literal with record
-      Value : Boolean;
-   end record;
+      Value : Boolean := False;
+   end record
+   with Put_Image => JSON_Image;
    --  the `true` and `false` values are both accessible in this fashion
 
    overriding
@@ -28,7 +29,13 @@ package Jula.Literals is
    function Is_Boolean (Value : JSON_Boolean) return Boolean
    is (True);
 
-   type JSON_Null is new JSON_Literal with null record;
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Boolean);
+
+   type JSON_Null is new JSON_Literal with null record
+   with Put_Image => JSON_Image;
    --  the `null` value
 
    overriding
@@ -39,13 +46,19 @@ package Jula.Literals is
    function Is_Null (Value : JSON_Null) return Boolean
    is (True);
 
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Null);
+
    Null_Element : constant JSON_Null := (others => <>);
 
    type JSON_Float is digits 15;
 
    type JSON_Number is new JSON_Literal with record
       Value : JSON_Float;
-   end record;
+   end record
+   with Put_Image => JSON_Image;
 
    overriding
    function To_String (Object : JSON_Number) return String;
@@ -53,6 +66,11 @@ package Jula.Literals is
    overriding
    function Is_Number (Value : JSON_Number) return Boolean
    is (True);
+
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Number);
 
    function To_Wide_Wide_String (Text : String) return Wide_Wide_String;
    --  returns a Wide_Wide_String, with appropriate conversion of UTF-8.
@@ -67,7 +85,8 @@ package Jula.Literals is
 
    type JSON_String is new JSON_Literal with record
       Text : UBStrings.Unbounded_String;
-   end record;
+   end record
+   with Put_Image => JSON_Image;
 
    overriding
    function To_String (Object : JSON_String) return String
@@ -102,5 +121,10 @@ package Jula.Literals is
    --  @exception Malformed_Unicode when:
    --  * a Unicode escape string is too close to the end of the string
    --    to have a valid Unicode (`\uABCD`)
+
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_String);
 
 end Jula.Literals;

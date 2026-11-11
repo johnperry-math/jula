@@ -66,4 +66,12 @@ package body Jula.Arrays is
    function Is_Empty (Object : JSON_Array) return Boolean
    is (Object.Elements.Is_Empty);
 
+   overriding
+   procedure JSON_Image
+     (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : JSON_Array) is
+   begin
+      Buffer.Put (Value.To_String);
+   end JSON_Image;
+
 end Jula.Arrays;
