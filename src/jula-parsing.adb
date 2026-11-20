@@ -95,21 +95,19 @@ package body Jula.Parsing is
    end Position_After_Whitespace;
 
    function From_Strings (Lines : String_Vector) return JSON'Class is
-      Result      : Jula.Arrays.JSON_Vector;
+      Result      : Jula.Arrays.JSON_Array;
       Row, Column : Positive := 1;
       Position    : String_Vector_Position;
+      use all type Ada.Containers.Count_Type;
    begin
       while Row <= Lines.Last_Index loop
-         Result.Append (Parse_Value (Lines, Row, Column));
+         Result.Append (JSON (Parse_Value (Lines, Row, Column)));
          Position := (Row => Row, Column => Column);
          Position := Position_After_Whitespace (Lines, Position);
          Row := Position.Row;
          Column := Position.Column;
       end loop;
-      return
-        (if Natural (Result.Length) = 1
-         then Result.First_Element
-         else JSON_Array'(Elements => Result));
+      return (if Result.Length = 1 then Result (1) else Result);
    end From_Strings;
 
    function Parse_String
@@ -247,7 +245,7 @@ package body Jula.Parsing is
             else
                Value := @ & "\" & Line (Column .. Column + 4);
                Column := @ + 4;
-               --  Parse_Hex (Line, Row, Column, Value);
+            --  Parse_Hex (Line, Row, Column, Value);
             end if;
 
          when others =>
@@ -313,7 +311,7 @@ package body Jula.Parsing is
            with Position_Info & ": " & Line (Column .. Column + 3);
       end if;
       Column := @ + 4;
-      return Jula.Literals.JSON_Boolean'(Value => True);
+      return Jula.Literals.JSON_True;
    end Parse_True;
 
    function Parse_False
@@ -332,7 +330,7 @@ package body Jula.Parsing is
            with Position_Info & ": " & Line (Column .. Column + 4);
       end if;
       Column := @ + 5;
-      return Jula.Literals.JSON_Boolean'(Value => False);
+      return Jula.Literals.JSON_False;
    end Parse_False;
 
    function Parse_Null
@@ -437,9 +435,9 @@ package body Jula.Parsing is
                Column := @ + 1;
             end loop;
             if Negative_Exponent then
-               Value := @ / 10.0**Exponent;
+               Value := @ / 10.0 ** Exponent;
             else
-               Value := @ * 10.0**Exponent;
+               Value := @ * 10.0 ** Exponent;
             end if;
          end;
       end if;
@@ -505,7 +503,7 @@ package body Jula.Parsing is
    function Parse_Object
      (Lines : String_Vector; Row, Column : in out Positive) return JSON'Class
    is
-      Mapping       : JSON_Map;
+      Result        : JSON_Object;
       Position_Info : constant String :=
         "at line" & Row'Image & " column" & Column'Image;
       Token         : Character;
@@ -525,7 +523,7 @@ package body Jula.Parsing is
                Name : constant String := Extract_String (Line, Row, Column);
             begin
                Move_Past (Lines, Row, Column, Token_List'[1 => ':'], Token);
-               Mapping.Include (Name, Parse_Value (Lines, Row, Column));
+               Result.Include (Name, Parse_Value (Lines, Row, Column));
                Move_Past
                  (Lines, Row, Column, Token_List'[1 => ',', 2 => '}'], Token);
                if Token = '}' then
@@ -539,13 +537,13 @@ package body Jula.Parsing is
          raise Unexpected_End_Of_File
            with Position_Info & ": object never terminates!";
       end if;
-      return JSON_Object'(Mapping => Mapping);
+      return Result;
    end Parse_Object;
 
    function Parse_Array
      (Lines : String_Vector; Row, Column : in out Positive) return JSON'Class
    is
-      Elements      : JSON_Vector;
+      Result        : JSON_Array;
       Position      : String_Vector_Position;
       Position_Info : constant String :=
         "at line" & Row'Image & " column" & Column'Image;
@@ -572,7 +570,7 @@ package body Jula.Parsing is
             Ended := True;
             exit;
          end if;
-         Elements.Append (Parse_Value (Lines, Row, Column));
+         Result.Append (JSON (Parse_Value (Lines, Row, Column)));
          Move_Past (Lines, Row, Column, Token_List'[']', ','], Token);
          if Token = ']' then
             Ended := True;
@@ -583,7 +581,7 @@ package body Jula.Parsing is
          raise Unexpected_End_Of_File
            with Position_Info & ": array never terminates!";
       end if;
-      return JSON_Array'(Elements => Elements);
+      return Result;
    end Parse_Array;
 
 end Jula.Parsing;

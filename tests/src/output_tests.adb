@@ -112,14 +112,14 @@ package body Output_Tests is
 
    function JSON_Array_Image_Passes return Boolean is
       Value : constant Jula.Arrays.JSON_Array :=
-        (Elements => [JSON'Class (Jula.Literals.Null_Element)]);
+        [JSON (Jula.Literals.Null_Element)];
    begin
       return Value'Image = "[ null ]";
    end JSON_Array_Image_Passes;
 
    function JSON_Object_Image_Passes return Boolean is
       Value : constant Jula.Objects.JSON_Object :=
-        (Mapping => ["first" => JSON'Class (Jula.Literals.Null_Element)]);
+        ["first" => JSON'Class (Jula.Literals.Null_Element)];
    begin
       return Value'Image = "{ ""first"" : null }";
    end JSON_Object_Image_Passes;

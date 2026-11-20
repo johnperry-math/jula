@@ -28,7 +28,7 @@ package body Object_Tests is
    subtype JSON_Number is Jula.Literals.JSON_Number;
 
    function Object_Is_Object return Boolean is
-      Object : constant JSON_Object := JSON_Object'(Mapping => []);
+      Object : constant JSON_Object := Jula.Objects.Empty_Object;
    begin
       if not Object.Is_Object then
          IO.Put_Line
@@ -56,26 +56,26 @@ package body Object_Tests is
       Output : constant JSON_Object :=
         JSON_Object (Jula.Parsing.From_String (Input));
    begin
-      if Positive (Output.Mapping.Length) /= 2 then
+      if Positive (Output.Length) /= 2 then
          IO.Put_Line
            ("Object_With_Array_Passes: Expected an object with two entries"
             & " but received one with"
-            & Output.Mapping.Length'Image);
+            & Output.Length'Image);
          return False;
       end if;
-      if not Output.Mapping.Contains ("first") then
+      if not Output.Contains ("first") then
          IO.Put_Line
            ("Object_With_Array_Passes: Did not find ""first"" object");
          return False;
       end if;
-      if not Output.Mapping.Contains ("second") then
+      if not Output.Contains ("second") then
          IO.Put_Line
            ("Object_With_Array_Passes: Did not find ""second"" object");
          return False;
       end if;
       declare
-         First  : constant JSON'Class := Output.Mapping ("first");
-         Second : constant JSON'Class := Output.Mapping ("second");
+         First  : constant JSON'Class := Output ("first");
+         Second : constant JSON'Class := Output ("second");
       begin
          if First'Tag /= JSON_Array'Tag then
             IO.Put_Line
@@ -103,11 +103,11 @@ package body Object_Tests is
                   & Number'Image);
                return False;
             end if;
-            if not Correct_Boolean.Value then
+            if not Correct_Boolean.Is_True then
                IO.Put_Line
                  ("Object_With_Array_Passes:"
                   & " expected second array entry to be true but received "
-                  & Correct_Boolean.Value'Image);
+                  & Correct_Boolean.Is_True'Image);
                return False;
             end if;
          end;
@@ -154,7 +154,7 @@ package body Object_Tests is
       Output : constant JSON_Object :=
         JSON_Object (Jula.Parsing.From_String (Input));
    begin
-      if not Output.Mapping.Is_Empty then
+      if not Output.Is_Empty then
          IO.Put_Line
            ("Empty_Object_Passes: somehow we parsed ""{}"" to have entries");
          return False;
@@ -164,10 +164,9 @@ package body Object_Tests is
 
    function Object_Containment_Passes return Boolean is
       Output : constant JSON_Object :=
-        JSON_Object'
-          (Mapping => ["first" => JSON'Class (JSON_Number'(Value => 2.0))]);
+        ["first" => JSON'Class (JSON_Number'(Value => 2.0))];
    begin
-      if not Output.Has_Key ("first") then
+      if not Output.Contains ("first") then
          IO.Put_Line
            ("Object_Containment_Passes:"
             & " should have contained key ""first"", but did not");

@@ -24,7 +24,7 @@ package body Array_Tests is
    subtype JSON_String is Jula.Literals.JSON_String;
 
    function Array_Is_Array return Boolean is
-      Object : constant JSON_Array := JSON_Array'(Elements => []);
+      Object : constant JSON_Array := (others => <>);
    begin
       if not Object.Is_Array then
          IO.Put_Line
@@ -51,15 +51,15 @@ package body Array_Tests is
       Output : constant JSON_Array :=
         JSON_Array (Jula.Parsing.From_String (Input));
    begin
-      if Positive (Output.Elements.Length) /= 3 then
+      if Positive (Output.Length) /= 3 then
          IO.Put_Line
            ("Heterogeneous_Array_Passes: Expected an array with 3 elements,"
             & " but received one with"
-            & Output.Elements.Length'Image);
+            & Output.Length'Image);
          return False;
       end if;
       declare
-         First : constant JSON'Class := Output.Elements (1);
+         First : constant JSON'Class := Output (1);
       begin
          if First'Tag /= Jula.Literals.JSON_Null'Tag then
             IO.Put_Line
@@ -70,7 +70,7 @@ package body Array_Tests is
          end if;
       end;
       declare
-         Second : constant JSON'Class := Output.Elements (2);
+         Second : constant JSON'Class := Output (2);
       begin
          if Second'Tag /= Jula.Literals.JSON_Number'Tag then
             IO.Put_Line
@@ -88,7 +88,7 @@ package body Array_Tests is
          end if;
       end;
       declare
-         Third : constant JSON'Class := Output.Elements (3);
+         Third : constant JSON'Class := Output (3);
       begin
          if Third'Tag /= Jula.Literals.JSON_String'Tag then
             IO.Put_Line
@@ -116,7 +116,7 @@ package body Array_Tests is
       Output : constant JSON_Array :=
         JSON_Array (Jula.Parsing.From_String (Input));
    begin
-      if Natural (Output.Elements.Length) /= 0 then
+      if Natural (Output.Length) /= 0 then
          IO.Put_Line
            ("Empty_Array: somehow we parsed ""[]"" to have elements");
          return False;

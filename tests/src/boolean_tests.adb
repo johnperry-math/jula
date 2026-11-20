@@ -29,7 +29,7 @@ package body Boolean_Tests is
          declare
             J : constant JSON_Boolean := JSON_Boolean (Output);
          begin
-            if not J.Value then
+            if not J.Is_True then
                IO.Put_Line
                  ("True_Passes: "
                   & "Expected a true JSON Boolean "
@@ -50,7 +50,7 @@ package body Boolean_Tests is
            ("False_Passes: Expected a JSON Boolean but encountered "
             & Output'Image);
          return False;
-      elsif JSON_Boolean (Output).Value then
+      elsif JSON_Boolean (Output).Is_True then
          IO.Put_Line
            ("False_Passes: "
             & "Expected a false JSON Boolean but encountered a true one");
@@ -60,7 +60,7 @@ package body Boolean_Tests is
    end False_Passes;
 
    function Boolean_Is_Boolean return Boolean is
-      Object : constant JSON'Class := JSON_Boolean'(Value => True);
+      Object : constant JSON'Class := Jula.Literals.JSON_True;
    begin
       if not Object.Is_Boolean then
          IO.Put_Line

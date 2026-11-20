@@ -20,10 +20,10 @@ package body Multiline_Tests is
       Output : constant JSON_Array :=
         JSON_Array (Jula.Parsing.From_Strings (Inputs));
    begin
-      if Natural (Output.Elements.Length) /= 2 then
+      if Natural (Output.Length) /= 2 then
          IO.Put_Line
            ("Commented_Lines_Passes: expected 2 elements but encountered"
-            & Output.Elements.Length'Image);
+            & Output.Length'Image);
          return False;
       end if;
       return True;
@@ -36,10 +36,10 @@ package body Multiline_Tests is
         JSON_Array (Jula.Parsing.From_Strings (Inputs));
       use all type Ada.Tags.Tag;
    begin
-      if Natural (Output.Elements.Length) /= 3 then
+      if Natural (Output.Length) /= 3 then
          IO.Put_Line
            ("Multiple_Values_Passes: expected 3 elements but encountered"
-            & Output.Elements.Length'Image);
+            & Output.Length'Image);
          return False;
       end if;
       if Output (2)'Tag /= Jula.Literals.JSON_Null'Tag then

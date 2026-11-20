@@ -2,6 +2,33 @@ pragma Ada_2022;
 
 package body Jula.Arrays is
 
+   function Empty_Array return JSON_Array
+   is ((Elements => []));
+
+   procedure Append (Self : in out JSON_Array; Object : JSON) is
+   begin
+      Self.Elements.Append (Object);
+   end Append;
+
+   procedure Insert_At
+     (Self : in out JSON_Array; Object : JSON; Index : Positive) is
+   begin
+      Self.Elements.Insert (Index, Object);
+   end Insert_At;
+
+   procedure Trim (Self : in out JSON_Array; Number : Positive) is
+   begin
+      Self.Elements.Delete_Last (Ada.Containers.Count_Type (Number));
+   end Trim;
+
+   procedure Remove_At (Self : in out JSON_Array; Index : Positive) is
+   begin
+      Self.Elements.Delete (Index);
+   end Remove_At;
+
+   function Length (Self : JSON_Array) return Ada.Containers.Count_Type
+   is (Self.Elements.Length);
+
    type Reversible_Array_Iterator is
      new JSON_Array_Iterators.Reversible_Iterator
    with record
@@ -10,12 +37,12 @@ package body Jula.Arrays is
    end record;
 
    function Element_At_Index
-     (A : JSON_Array; Cursor : JSON_Array_Cursor) return JSON'Class
-   is (A.Elements (Positive (Cursor)));
+     (Self : JSON_Array; Cursor : JSON_Array_Cursor) return JSON'Class
+   is (Self.Elements (Positive (Cursor)));
 
    function Element_At_Index
-     (A : JSON_Array; Index : Positive) return JSON'Class
-   is (A.Elements (Index));
+     (Self : JSON_Array; Index : Positive) return JSON'Class
+   is (Self.Elements (Index));
 
    function Is_In_Range (Cursor : JSON_Array_Cursor) return Boolean
    is (Cursor /= 0);
@@ -45,17 +72,17 @@ package body Jula.Arrays is
    is (if Position = 0 then 0 else Position - 1);
 
    function Iterate
-     (A : JSON_Array) return JSON_Array_Iterators.Reversible_Iterator'Class
-   is (Reversible_Array_Iterator'(Container => A, Cursor => 0));
+     (Self : JSON_Array) return JSON_Array_Iterators.Reversible_Iterator'Class
+   is (Reversible_Array_Iterator'(Container => Self, Cursor => 0));
 
    overriding
-   function To_String (Object : JSON_Array) return String is
+   function To_String (Self : JSON_Array) return String is
       use all type UBStrings.Unbounded_String;
       Result : UBStrings.Unbounded_String := To_Unbounded_String ("[ ");
    begin
-      for Ith in Object.Elements.First_Index .. Object.Elements.Last_Index loop
-         Append (Result, Object.Elements (Ith).To_String);
-         if Ith < Object.Elements.Last_Index then
+      for Ith in Self.Elements.First_Index .. Self.Elements.Last_Index loop
+         Append (Result, Self.Elements (Ith).To_String);
+         if Ith < Self.Elements.Last_Index then
             Append (Result, ", ");
          end if;
       end loop;
@@ -63,8 +90,8 @@ package body Jula.Arrays is
       return To_String (Result);
    end To_String;
 
-   function Is_Empty (Object : JSON_Array) return Boolean
-   is (Object.Elements.Is_Empty);
+   function Is_Empty (Self : JSON_Array) return Boolean
+   is (Self.Elements.Is_Empty);
 
    overriding
    procedure JSON_Image

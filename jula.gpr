@@ -26,4 +26,9 @@ project Jula is
       for Artifacts (".") use ("share");
    end Install;
 
+   package Documentation is
+      for Output_Dir ("html") use "docs";
+      for Resources_Dir ("html") use "resources_dir";
+   end Documentation;
+
 end Jula;

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class=main>
+<link rel=stylesheet href=gnatdoc.css><body class=content><header></header><p>Derived types:
+      
+        <a href=b755edbccac9c696f66f4d7862785f054fe7950b05b66cdd93aff844beadfbcf.html>JSON_Array</a>
+        
+      
+        <a href=5094e9f8cfdee58233e21465ba7517cba4fb5eead41103009470eaf64159bb7f.html>JSON_Literal</a>
+        
+      
+        <a href=9266af17aa2f764f925448801aacab2baeb9de9e150b3b8f351d4b759ffee765.html>JSON_Object</a>
+        
+      
+    <p>All derived types:
+      
+        <a href=b755edbccac9c696f66f4d7862785f054fe7950b05b66cdd93aff844beadfbcf.html>JSON_Array</a>
+        
+      
+        <a href=e6d6689fb11974b80d9987675d3dc0933dafa06c5abc3f9ed7fdb75eba316c34.html>JSON_Boolean</a>
+        
+      
+        <a href=5094e9f8cfdee58233e21465ba7517cba4fb5eead41103009470eaf64159bb7f.html>JSON_Literal</a>
+        
+      
+        <a href=56d409d2d5b65ada766b9795f0f34900354083892e36cbfd85455f7969852406.html>JSON_Null</a>
+        
+      
+        <a href=91fd939c5ecab1e93cb37153529307679600fd2ca881ff2a76807027f245176a.html>JSON_Number</a>
+        
+      
+        <a href=956c437489ef8fe763ccd3cd212cbde3b0eea38a745306b1c3ac89f2dc7a43eb.html>JSON_String</a>
+        
+      
+        <a href=9266af17aa2f764f925448801aacab2baeb9de9e150b3b8f351d4b759ffee765.html>JSON_Object</a>
+        
+      
+    <h3>Declared prefix-callable subprograms</h3><ul><li><a href=#99498376ac16e48cc79358339597d6ad397077b2453e2a67e742d882bfdae030>Is_Array</a><li><a href=#b73509a19bfadb4249a99c3e1ea3f9a231146328903fef3ce853549a87fdfbb3>Is_Boolean</a><li><a href=#3dcb39ff8051bf2369675ae122779b7857b5379542b633d80ed80e1e4231f8ff>Is_Null</a><li><a href=#44738673fc996c826b8535b450304206e40f94a838c2f1bf4db1762f1d78cd5e>Is_Number</a><li><a href=#918b737facbce5858e67b347e817c50685a468275eeeb7bbf4fc56e1461344ee>Is_Object</a><li><a href=#7a65b50a112da40bfc279d3ac183e2d9d0b0da0f617de509ecf846c09927f32f>Is_String</a><li><a href=#d6fb5a6343331454a6126be08a9788ee512b8fe76cd30a2060bf3df75ebf207c>To_String</a></ul><h2>Description</h2><h3>Subprograms</h3><h4 id=99498376ac16e48cc79358339597d6ad397077b2453e2a67e742d882bfdae030>Is_Array</h4><pre class=ada-code-snippet><code>function Is_Array (Self : JSON) return Boolean
+</code></pre><p><code>True</code> iff <code>Self</code> is an array (JSON: <code>[...]</code>)<h5>Parameters</h5><dl><dt>Self<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=b73509a19bfadb4249a99c3e1ea3f9a231146328903fef3ce853549a87fdfbb3>Is_Boolean</h4><pre class=ada-code-snippet><code>function Is_Boolean (Value : JSON) return Boolean
+</code></pre><p><code>True</code> iff <code>Self</code> is a boolean value (JSON :<code>true</code>, <code>false</code>)<h5>Parameters</h5><dl><dt>Value<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=3dcb39ff8051bf2369675ae122779b7857b5379542b633d80ed80e1e4231f8ff>Is_Null</h4><pre class=ada-code-snippet><code>function Is_Null (Value : JSON) return Boolean
+</code></pre><p><code>True</code> iff <code>Self</code> is a null value (JSON: <code>null</code>)<h5>Parameters</h5><dl><dt>Value<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=44738673fc996c826b8535b450304206e40f94a838c2f1bf4db1762f1d78cd5e>Is_Number</h4><pre class=ada-code-snippet><code>function Is_Number (Value : JSON) return Boolean
+</code></pre><p><code>True</code> iff <code>Self</code> is a number<h5>Parameters</h5><dl><dt>Value<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=918b737facbce5858e67b347e817c50685a468275eeeb7bbf4fc56e1461344ee>Is_Object</h4><pre class=ada-code-snippet><code>function Is_Object (Value : JSON) return Boolean
+</code></pre><p><code>True</code> iff <code>Self</code> is an Self; also known as a mapping (JSON: <code>{ "key": &lt;Self>, ... }</code>)<h5>Parameters</h5><dl><dt>Value<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=7a65b50a112da40bfc279d3ac183e2d9d0b0da0f617de509ecf846c09927f32f>Is_String</h4><pre class=ada-code-snippet><code>function Is_String (Value : JSON) return Boolean
+</code></pre><p><code>True</code> iff <code>Self</code> is a string (JSON: <code>"..."</code>)<h5>Parameters</h5><dl><dt>Value<dd></dl><h5>Return Value</h5><dl><dd></dl><h4 id=d6fb5a6343331454a6126be08a9788ee512b8fe76cd30a2060bf3df75ebf207c>To_String</h4><pre class=ada-code-snippet><code>function To_String (Self : JSON) return String
+</code></pre><p>create a legal and, therefore, parseable string that one can feed to <code>Jula.Parsing.From_String</code> and obtain <code>Self</code>.<h5>Parameters</h5><dl><dt>Self<dd><p>any</dl><h5>Return Value</h5><dl><dd><p>a parseable string representation of Self</dl>

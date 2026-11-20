@@ -10,20 +10,20 @@ package body Jula.Objects is
    is (O.Mapping (Cursor.Position));
 
    overriding
-   function To_String (Object : JSON_Object) return String is
+   function To_String (Self : JSON_Object) return String is
       use all type UBStrings.Unbounded_String;
       Result : UBStrings.Unbounded_String := To_Unbounded_String ("{ ");
       Ith    : Natural := 0;
    begin
-      for Cursor in Object.Mapping.Iterate loop
+      for Cursor in Self.Mapping.Iterate loop
          UBStrings.Append
            (Result,
             """"
             & JSON_Maps.Key (Cursor)
             & """ : "
-            & (Object.Mapping (Cursor).To_String));
+            & (Self.Mapping (Cursor).To_String));
          Ith := @ + 1;
-         if Ith < Positive (Object.Mapping.Length) then
+         if Ith < Positive (Self.Mapping.Length) then
             Append (Result, ", ");
          end if;
       end loop;
@@ -38,7 +38,7 @@ package body Jula.Objects is
 
    type Object_Iterator is new JSON_Object_Iterators.Forward_Iterator
    with record
-      --  Object : JSON_Object;
+      --  Self : JSON_Object;
       Cursor : JSON_Maps.Cursor;
    end record;
 
@@ -56,8 +56,14 @@ package body Jula.Objects is
      (O : JSON_Object) return JSON_Object_Iterators.Forward_Iterator'Class
    is (Object_Iterator'(Cursor => O.Mapping.First));
 
-   function Has_Key (O : JSON_Object; Key : String) return Boolean
-   is (O.Mapping.Contains (Key));
+   function Contains (Self : JSON_Object; Key : String) return Boolean
+   is (Self.Mapping.Contains (Key));
+
+   function Is_Empty (Self : JSON_Object) return Boolean
+   is (Self.Mapping.Is_Empty);
+
+   function Length (Self : JSON_Object) return Ada.Containers.Count_Type
+   is (Self.Mapping.Length);
 
    overriding
    procedure JSON_Image
@@ -66,5 +72,25 @@ package body Jula.Objects is
    begin
       Buffer.Put (Value.To_String);
    end JSON_Image;
+
+   function Empty_Object return JSON_Object
+   is ((others => <>));
+
+   procedure Insert
+     (Self : in out JSON_Object; Key : String; Value : JSON'Class) is
+   begin
+      Self.Mapping.Insert (Key, Value);
+   end Insert;
+
+   procedure Remove (Self : in out JSON_Object; Key : String) is
+   begin
+      Self.Mapping.Delete (Key);
+   end Remove;
+
+   procedure Include
+     (Self : in out JSON_Object; Key : String; Value : JSON'Class) is
+   begin
+      Self.Mapping.Include (Key, Value);
+   end Include;
 
 end Jula.Objects;

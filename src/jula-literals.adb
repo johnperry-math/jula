@@ -14,6 +14,9 @@ package body Jula.Literals is
    package UBWStrings renames Ada.Strings.Wide_Unbounded;
    package UBWWStrings renames Ada.Strings.Wide_Wide_Unbounded;
 
+   function Is_True (Self : JSON_Boolean) return Boolean
+   is (Self.Value);
+
    function Trim_Trailing_Zeros (Value : String) return String is
       --  removes trailing zeros from a string representation of a float;
       --  for example, 2.32000 becomes 2.32.
@@ -36,11 +39,11 @@ package body Jula.Literals is
    end Trim_Trailing_Zeros;
 
    overriding
-   function To_String (Object : JSON_Number) return String is
+   function To_String (Self : JSON_Number) return String is
       package Float_IO is new IO.Float_IO (Num => JSON_Float);
       Result : String (1 .. 20);
    begin
-      Float_IO.Put (Result, Object.Value, Exp => 0);
+      Float_IO.Put (Result, Self.Value, Exp => 0);
       return
         Trim_Trailing_Zeros
           (Ada.Strings.Fixed.Trim (Result, Ada.Strings.Both));
