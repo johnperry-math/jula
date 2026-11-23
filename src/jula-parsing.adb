@@ -16,9 +16,6 @@ package body Jula.Parsing is
    package IO renames Ada.Text_IO;
 
    subtype JSON_Array is Jula.Arrays.JSON_Array;
-   subtype JSON_Vector is Jula.Arrays.JSON_Vector;
-
-   subtype JSON_Map is Jula.Objects.JSON_Map;
    subtype JSON_Object is Jula.Objects.JSON_Object;
 
    subtype JSON_Float is Jula.Literals.JSON_Float;

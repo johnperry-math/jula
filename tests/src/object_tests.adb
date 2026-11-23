@@ -124,6 +124,15 @@ package body Object_Tests is
    begin
       for Item of Output loop
          Counter := @ + 1;
+         if Counter = 1 then
+            if not Item.Is_Array then
+               IO.Put_Line ("Expected first reference item to be an array");
+               return False;
+            end if;
+         elsif Counter = 2 and then not Item.Is_Null then
+            IO.Put_Line ("Expected second reference item to be null");
+            return False;
+         end if;
       end loop;
       if Counter /= 2 then
          IO.Put_Line
@@ -131,6 +140,29 @@ package body Object_Tests is
             & Counter'Image);
          return False;
       end if;
+      Counter := 1;
+      for Cursor in Output.Iterate loop
+         if Counter = 1 then
+            if Jula.Objects.Key (Cursor) /= "first" then
+               IO.Put_Line ("Expected the first key to be ""first""");
+               return False;
+            end if;
+            if not Output.Value (Cursor).Is_Array then
+               IO.Put_Line ("Expected the first value to be an array");
+               return False;
+            end if;
+         else
+            if Jula.Objects.Key (Cursor) /= "second" then
+               IO.Put_Line ("Expected the second key to be ""second""");
+               return False;
+            end if;
+            if not Output.Value (Cursor).Is_Null then
+               IO.Put_Line ("Expected the second value to be null");
+               return False;
+            end if;
+         end if;
+         Counter := @ + 1;
+      end loop;
       return True;
    end Object_Iteration_Passes;
 

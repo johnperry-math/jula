@@ -97,7 +97,7 @@ procedure Read_Quotes (Source_Path : String; Into : in out Quote_Vector) is
             Json_Quote : JSON_Object := JSON_Object (Element);
             New_Quote  : Quote := (Has => [others => False], Value => <>);
          begin
-            for Field in Fields loop
+            for Field in Fields loop -- <-- an enumeration, nothing special
                -- ...
                   New_Quote.Has (Field) := Json_Quote.Contains (Key);
                   if New_Quote.Has (Field) then

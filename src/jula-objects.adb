@@ -2,10 +2,13 @@ pragma Ada_2022;
 
 package body Jula.Objects is
 
-   function Value_At_Key (O : JSON_Object; Key : String) return JSON'Class
+   function Key (Cursor : JSON_Object_Cursor) return String
+   is (JSON_Maps.Key (Cursor.Position));
+
+   function Value (O : JSON_Object; Key : String) return JSON'Class
    is (O.Mapping (Key));
 
-   function Value_At_Key
+   function Value
      (O : JSON_Object; Cursor : JSON_Object_Cursor) return JSON'Class
    is (O.Mapping (Cursor.Position));
 

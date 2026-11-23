@@ -17,12 +17,15 @@ package Jula.Objects is
 
    type JSON_Map is private;
 
+   type JSON_Object_Cursor is private;
+   --  use Key and Value to obtain information
+
    type JSON_Object is new JSON with record
       Mapping : JSON_Map;
    end record
    with
      Aggregate         => (Empty => Empty_Object, Add_Named => Insert),
-     Constant_Indexing => Value_At_Key,
+     Constant_Indexing => Value,
      Default_Iterator  => Iterate,
      Iterator_Element  => JSON'Class,
      Put_Image         => JSON_Image;
@@ -57,25 +60,28 @@ package Jula.Objects is
    --  if `Key` appears in `Self`, then it is re-mapped to `Value`;
    --  otherwise, it is added to `Self` and mapped to `Value`
 
-   type JSON_Object_Cursor is private;
-
-   function Value_At_Key (O : JSON_Object; Key : String) return JSON'Class;
+   function Value (O : JSON_Object; Key : String) return JSON'Class;
    --  the JSON value at the indicated key
    --  @param Self a JSON Self
    --  @param Key a key that appears in Self
    --  @exception Constraint_Error if Key is not in O
 
-   function Value_At_Key
+   overriding
+   function To_String (Self : JSON_Object) return String;
+
+   function Value
      (O : JSON_Object; Cursor : JSON_Object_Cursor) return JSON'Class;
    --  the JSON value at the indicated key
    --  @param Self a JSON Self
    --  @param Cursor a cursor pointing to the Self
    --  @exception Constraint_Error if Cursor is invalid
 
-   overriding
-   function To_String (Self : JSON_Object) return String;
+   function Key (Cursor : JSON_Object_Cursor) return String;
+   --  the string value for the key at the current cursor
 
    function Is_Valid (Cursor : JSON_Object_Cursor) return Boolean;
+   --  true as long as you have properly initialized
+   --  and haven't iterated off the map
 
    package JSON_Object_Iterators is new
      Ada.Iterator_Interfaces
