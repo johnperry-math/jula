@@ -1,4 +1,3 @@
-with Ada.Finalization;
 with Ada.Strings.UTF_Encoding;
 
 package Jula.Literals is
