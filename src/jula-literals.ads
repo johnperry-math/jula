@@ -12,7 +12,7 @@ package Jula.Literals is
    Malformed_Unicode : exception;
    --  raised when a string contains invalid Unicode
 
-   type JSON_Literal is new JSON with null record;
+   type JSON_Literal is abstract new JSON with null record;
    --  this intermediate type is included in case you want to test
    --  if a JSON value is a literal without knowing which specific one.
 

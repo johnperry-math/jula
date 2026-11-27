@@ -27,7 +27,7 @@ package Jula is
    type JSON is abstract tagged null record with Put_Image => JSON_Image;
 
    function To_String (Self : JSON) return String
-   is ("<JSON>");
+   is ("");
    --  create a legal and, therefore, parseable string
    --  that one can feed to `Jula.Parsing.From_String` and obtain `Self`.
    --  @param Self any

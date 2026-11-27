@@ -85,7 +85,7 @@ package body Output_Tests is
       Temp    : Jula.Literals.JSON_Boolean;
       Blocked : constant JSON'Class := Temp;
    begin
-      return JSON (Blocked)'Image = "<JSON>";
+      return JSON (Blocked)'Image = "";
    end JSON_Put_Image_Passes;
 
    function JSON_Boolean_Image_Passes return Boolean is
