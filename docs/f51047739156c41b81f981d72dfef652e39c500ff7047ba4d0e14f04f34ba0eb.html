@@ -15,7 +15,7 @@
 </code></pre><h5>Parameters</h5><dl><dt>Buffer<dd><dt>Value<dd></dl><h4 id=b72c176f775cd3cdc110bf94bfb8bdc3e2c8116ae12a7b93aae9d6c789c27d05>JSON_Image</h4><pre class=ada-code-snippet><code>procedure JSON_Image
   (Buffer : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
    Value  : JSON_String)
-</code></pre><h5>Parameters</h5><dl><dt>Buffer<dd><dt>Value<dd></dl><h4 id=5094e9f8cfdee58233e21465ba7517cba4fb5eead41103009470eaf64159bb7f>JSON_Literal</h4><pre class=ada-code-snippet><code>type JSON_Literal is new JSON with null record;
+</code></pre><h5>Parameters</h5><dl><dt>Buffer<dd><dt>Value<dd></dl><h4 id=5094e9f8cfdee58233e21465ba7517cba4fb5eead41103009470eaf64159bb7f>JSON_Literal</h4><pre class=ada-code-snippet><code>type JSON_Literal is abstract new JSON with null record;
 </code></pre><p>this intermediate type is included in case you want to test if a JSON value is a literal without knowing which specific one.<h4 id=56d409d2d5b65ada766b9795f0f34900354083892e36cbfd85455f7969852406>JSON_Null</h4><pre class=ada-code-snippet><code>type JSON_Null is new JSON_Literal with null record;
 </code></pre><p>the <code>null</code> value<h4 id=91fd939c5ecab1e93cb37153529307679600fd2ca881ff2a76807027f245176a>JSON_Number</h4><pre class=ada-code-snippet><code>type JSON_Number is new JSON_Literal with record
    Value : JSON_Float;
